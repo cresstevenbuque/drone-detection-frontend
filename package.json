@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "@gradio/client": "^2.0.0",
+    "@tailwindcss/vite": "^4.1.18",
     "cloudinary": "^2.8.0",
     "pinia": "^3.0.4",
+    "tailwindcss": "^4.1.18",
     "vue": "^3.5.25"
   },
   "devDependencies": {

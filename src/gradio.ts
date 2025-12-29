@@ -24,9 +24,15 @@ export const useFetchStore = defineStore('fetch', () => {
 
     async function connectClient() {
         if (app.value === null) {
-            app.value = await Client.connect(gradioURL);
-            addLog('Connected to Gradio Space.', 'success');
-            ready.value = true
+            addLog('Connecting to Gradio Space...', 'info');
+
+            try{
+                app.value = await Client.connect(gradioURL);
+                addLog('Connected to Gradio Space', 'success');
+                ready.value = true
+            } catch(e){
+                addLog('Failed to connect to Gradio Space', 'warning');
+            }
         }
     }
 

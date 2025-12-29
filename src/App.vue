@@ -106,7 +106,6 @@ onMounted(() => {
     updateClock()
     clockInterval = setInterval(updateClock, 1000)
     addLog('Frontend Interface Loaded.', 'info')
-    addLog('Waiting for source input...', 'warning')
     gradio.connectClient()
 })
 
@@ -166,7 +165,7 @@ onUnmounted(() => {
                     class="text-center p-10 border-2 border-dashed border-slate-700 rounded-xl bg-slate-900/50">
                     <i data-lucide="upload-cloud" class="w-16 h-16 text-slate-500 mx-auto mb-4"></i>
                     <h3 class="text-xl font-bold text-slate-400 mb-2">Upload Source Material</h3>
-                    <p class="text-slate-500 text-sm mb-6">Select drone footage (MP4)</p>
+                    <p class="text-slate-500 text-sm mb-6">Select video drone footage</p>
                     <label
                         class="text-white px-6 py-3 rounded-lg font-bold transition inline-block"
                         :class="gradio.ready == false ? 'bg-slate-900 disabled:opacity-50 disabled:cursor-not-allowed' : 'cursor-pointer bg-slate-700 hover:bg-slate-600'">
@@ -235,7 +234,7 @@ onUnmounted(() => {
                             Awaiting system initialization...
                         </div>
                         <div v-for="(log, index) in logs.logs" :key="index" class="border-l-2 pl-2"
-                            :class="log.type === 'alert' ? 'border-red-500 text-red-400' : (log.type === 'success' ? 'border-emerald-500 text-emerald-400' : 'border-slate-700 text-slate-400')">
+                            :class="log.type === 'warning' ? 'border-red-500 text-red-400' : (log.type === 'success' ? 'border-emerald-500 text-emerald-400' : 'border-slate-700 text-slate-400')">
                             <span class="opacity-50 mr-2">[{{ log.time }}]</span>
                             <span>{{ log.message }}</span>
                         </div>
@@ -244,7 +243,7 @@ onUnmounted(() => {
 
                 <div
                     class="p-4 border-t border-slate-800 bg-slate-950 text-[10px] text-center text-slate-600 tracking-widest">
-                    {{ isSystemActive ? 'ENCRYPTED DATA LINK ACTIVE' : 'AWAITING BACKEND CONNECTION' }}
+                    {{ isSystemActive ? 'INFERENCE ACTIVE' : 'AWAITING CONNECTION' }}
                 </div>
             </div>
         </main>
@@ -252,6 +251,8 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+@import "tailwindcss";
+
 .hud-grid {
     background-image:
         linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),

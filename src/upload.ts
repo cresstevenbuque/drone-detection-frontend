@@ -28,6 +28,7 @@ export const cloud = defineStore('upload', () => {
             
         } catch (e) {
             console.error(e);
+            addLog("Failed to upload file", 'warning')
         }
     }
     return { result, run }
