@@ -1,11 +1,13 @@
 import {ref} from "vue";
 import { defineStore } from "pinia";
+import { useLogStore } from "./logs";
 
 export const cloud = defineStore('upload', () => {
 
     const result = ref(null); 
+    const addLog = useLogStore().addLog
 
-    async function run(file) {
+    async function run(file: File) {
         try {
             const url = `https://api.cloudinary.com/v1_1/dsf58gpmf/upload`; // Name of my Cloudinary space
             const fd = new FormData();
@@ -20,6 +22,7 @@ export const cloud = defineStore('upload', () => {
             .then((data) => {
                 // File uploaded successfully
                 result.value = data.secure_url;
+                addLog("Video file successfully uploaded to the server.", 'success')
             })
             
         } catch (e) {
