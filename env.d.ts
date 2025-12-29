@@ -8,4 +8,14 @@ declare global {
 	var NL_OS: any;
 }
 
+interface ImportMetaEnv {
+	readonly VITE_API_URL: string;
+	readonly VITE_SOME_KEY: number; // Define the types for your variables
+	// more env variables...
+  }
+  
+  interface ImportMeta {
+	readonly env: ImportMetaEnv;
+  }
+
 export {}

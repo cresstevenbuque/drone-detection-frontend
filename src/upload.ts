@@ -2,6 +2,8 @@ import {ref} from "vue";
 import { defineStore } from "pinia";
 import { useLogStore } from "./logs";
 
+const cloudinaryURL = import.meta.env.VITE_CLOUDINARY_URL
+
 export const cloud = defineStore('upload', () => {
 
     const result = ref(null); 
@@ -9,12 +11,11 @@ export const cloud = defineStore('upload', () => {
 
     async function run(file: File) {
         try {
-            const url = `https://api.cloudinary.com/v1_1/dsf58gpmf/upload`; // Name of my Cloudinary space
             const fd = new FormData();
             fd.append('upload_preset', 'uploaded_videos'); // Name of my upload preset
             fd.append('file', file);
 
-            await fetch(url, {
+            await fetch(cloudinaryURL, {
                 method: 'POST',
                 body: fd,
             })

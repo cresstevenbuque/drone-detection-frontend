@@ -8,7 +8,7 @@ import { cloud } from './upload';
 const isSystemActive = ref(false)
 
 const gradio = useFetchStore()
-const logs = useLogStore().logs
+const logs = useLogStore()
 const addLog = useLogStore().addLog
 const mediaFile = ref(null)
 const mediaUrl = ref(null)
@@ -86,6 +86,8 @@ const toggleSystem = async () => {
 const buttonChoice = () => {
     if (result.value !== null) {
         result.value = mediaFile.value = mediaUrl.value = null
+        logs.clearLog()
+        gradio.clearCounter()
     } else {
         toggleSystem()
     }
@@ -232,7 +234,7 @@ onUnmounted(() => {
                         <div v-if="logs.length === 0" class="text-slate-600 italic text-center mt-10">
                             Awaiting system initialization...
                         </div>
-                        <div v-for="(log, index) in logs" :key="index" class="border-l-2 pl-2"
+                        <div v-for="(log, index) in logs.logs" :key="index" class="border-l-2 pl-2"
                             :class="log.type === 'alert' ? 'border-red-500 text-red-400' : (log.type === 'success' ? 'border-emerald-500 text-emerald-400' : 'border-slate-700 text-slate-400')">
                             <span class="opacity-50 mr-2">[{{ log.time }}]</span>
                             <span>{{ log.message }}</span>

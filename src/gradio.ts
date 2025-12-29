@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 import { Ref, ref } from "vue";
 import { useLogStore } from "./logs";
 
+const gradioURL = import.meta.env.VITE_GRADIO_URL
+
 // Define the type for the connected client
 type GradioClient = Awaited<ReturnType<typeof Client.connect>>;
 
@@ -10,16 +12,19 @@ export const useFetchStore = defineStore('fetch', () => {
 
     // Gradio Public URL hosted from Kaggle. Mag utro-utro ni siya everytime i-run nako ang notebook.
     // Contact me if you need a different one.
-    const url = ref("https://c025eac0bda433cf1e.gradio.live");
     const app: Ref<GradioClient | null> = ref(null);
     const addLog = useLogStore().addLog
     const ready = ref(false)
     const civilians = ref(0)
     const soldiers = ref(0)
 
+    function clearCounter() {
+        civilians.value = soldiers.value = 0
+    }
+
     async function connectClient() {
         if (app.value === null) {
-            app.value = await Client.connect(url.value);
+            app.value = await Client.connect(gradioURL);
             addLog('Connected to Gradio Space.', 'success');
             ready.value = true
         }
@@ -35,7 +40,7 @@ export const useFetchStore = defineStore('fetch', () => {
         addLog(`Video file is submitted for inference.`, 'info');
         const job = app.value.submit("/predict", {
             input_video_path: { "video": handle_file(file) },
-        });
+        }) as any;
 
         for await (const message of job) {
             if (message.type === "data") {
@@ -69,7 +74,8 @@ export const useFetchStore = defineStore('fetch', () => {
         fetchData,
         ready,
         civilians,
-        soldiers
+        soldiers,
+        clearCounter
     };
 
 })
