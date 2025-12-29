@@ -21,7 +21,7 @@ export default defineConfig({
   },
   publicDir: "../resources/js/",
   build: {
-  	outDir: "../resources/dist/",
+  	outDir: "../resources/dist/", // Custom directory pointing at Neutralino
   	emptyOutDir: true
   }
 })
